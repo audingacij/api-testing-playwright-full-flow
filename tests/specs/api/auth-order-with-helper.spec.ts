@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { fetchJwt, createOrder, getOrderById } from '../../helpers/api-helper'
+import {
+  fetchJwt,
+  createOrder,
+  getOrderById,
+  deleteOrder,
+  getDeletedOrderById,
+} from '../../helpers/api-helper'
 import { StatusDto } from '../../dto/status-dto'
 import { OrderDto } from '../../dto/order-dto'
 
@@ -20,4 +26,11 @@ test('create order and find order by id', async ({ request }) => {
   const order: OrderDto = await getOrderById(request, jwt, orderId)
   expect.soft(order.id).toBe(orderId)
   expect.soft(order.status).toBe(StatusDto.OPEN)
+})
+
+test('create order and delete order by id and get deleted order', async ({ request }) => {
+  const orderId = await createOrder(request, jwt)
+  console.log('orderid is ' + orderId)
+  await deleteOrder(request, jwt, orderId)
+  await getDeletedOrderById(request, jwt, orderId)
 })

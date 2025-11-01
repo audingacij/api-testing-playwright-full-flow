@@ -50,3 +50,27 @@ export async function getOrderById(
     data.id,
   )
 }
+
+export async function deleteOrder(request: APIRequestContext, jwt: string, orderId: number): Promise<void> {
+  const response = await request.delete(`${serviceURL}${orderPath}/${orderId}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+  expect(response.status()).toBe(StatusCodes.OK)
+}
+
+export async function getDeletedOrderById(
+  request: APIRequestContext,
+  jwt: string,
+  id: number,
+): Promise<void> {
+  const response = await request.get(`${serviceURL}${orderPath}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+  expect(response.status()).toBe(StatusCodes.OK)
+  const data = await response.text()
+  expect(data).toBe('')
+}
