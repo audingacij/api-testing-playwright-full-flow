@@ -72,7 +72,7 @@ test('create two orders and get their ids', async ({ request }) => {
   console.log('Created order IDs:', orderId1, orderId2)
 })
 
-test('delete order and verify it is gone from GET/ orders', async ({ request }) => {
+test('delete order and verify it is gone from GET/orders', async ({ request }) => {
   const orderId = await createOrder(request, jwt)
   await deleteOrder(request, jwt, orderId)
   const response = await request.get('https://backend.tallinn-learning.ee/orders', {
