@@ -43,7 +43,7 @@ jobs:
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
           COURIER_USER: ${{ secrets.COURIER_USER }}
-          COURIER_PASSWORD: ${{ secrets.COURIER_PASS }}
+          COURIER_PASS: ${{ secrets.COURIER_PASS }}
         run: |
           echo "Running Playwright to execute API tests..."
           npx playwright test
