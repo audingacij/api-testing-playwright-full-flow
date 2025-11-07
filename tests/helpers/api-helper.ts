@@ -83,15 +83,13 @@ export async function getDeletedOrderById(
 
 export async function fetchCourierJwt(request: APIRequestContext): Promise<string> {
   const courierResponse = await request.post(`${serviceURL}${courierLoginPath}`, {
-    data: {
-      username: 'audingacij',
-      password: 'Password123',
-    },
+    data: LoginDto.createCourierLoginData(),
   })
 
   if (courierResponse.status() !== StatusCodes.OK) {
     throw new Error(`Courier authorization failed. Status: ${courierResponse.status()}`)
   }
+
   return await courierResponse.text()
 }
 
@@ -121,4 +119,14 @@ export async function updateOrderStatus(
     },
   })
   expect(response.status()).toBe(StatusCodes.OK)
+}
+
+export async function getAllOrders(request: APIRequestContext, jwt: string): Promise<OrderDto[]> {
+  const response = await request.get(`${serviceURL}${orderPath}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  })
+  expect(response.status()).toBe(StatusCodes.OK)
+  return await response.json()
 }
