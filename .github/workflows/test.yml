@@ -2,8 +2,7 @@ name: Check formatting, linting, and run tests
 
 on:
   push:
-    branches:
-      [main, develop]
+    branches: [main, develop]
   pull_request:
     branches:
       - main
@@ -26,13 +25,13 @@ jobs:
 
       - name: Run Prettier check
         run: |
-            echo "Running Prettier to check for formatting issues..."
-            npm run prettier:check
+          echo "Running Prettier to check for formatting issues..."
+          npm run prettier:check
 
       - name: Run ESLint check
         run: |
-            echo "Running ESLint to check for linting issues..."
-            npm run lint 
+          echo "Running ESLint to check for linting issues..."
+          npm run lint
 
       - name: Run TypeScript compile check
         run: |
@@ -43,6 +42,8 @@ jobs:
         env:
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          COURIER_USER: ${{ secrets.COURIER_USER }}
+          COURIER_PASS: ${{ secrets.COURIER_PASS }}
         run: |
           echo "Running Playwright to execute API tests..."
-          npx playwright test  
+          npx playwright test

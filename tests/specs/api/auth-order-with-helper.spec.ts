@@ -5,6 +5,7 @@ import {
   getOrderById,
   deleteOrder,
   getDeletedOrderById,
+  getAllOrders,
 } from '../../helpers/api-helper'
 import { StatusDto } from '../../dto/status-dto'
 import { OrderDto } from '../../dto/order-dto'
@@ -33,4 +34,19 @@ test('create order and delete order by id and get deleted order', async ({ reque
   console.log('orderid is ' + orderId)
   await deleteOrder(request, jwt, orderId)
   await getDeletedOrderById(request, jwt, orderId)
+})
+
+test('create two orders and get their ids', async ({ request }) => {
+  const orderId1 = await createOrder(request, jwt)
+  const orderId2 = await createOrder(request, jwt)
+  expect(orderId1).toBeGreaterThan(0)
+  expect(orderId2).toBeGreaterThan(0)
+  console.log('Created order IDs:', orderId1, orderId2)
+})
+
+test('delete order and verify it is gone from GET/orders', async ({ request }) => {
+  const orderId = await createOrder(request, jwt)
+  await deleteOrder(request, jwt, orderId)
+  const allOrders = await getAllOrders(request, jwt)
+  expect.soft(allOrders).not.toContain(orderId)
 })
